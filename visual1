@@ -1,0 +1,79 @@
+(define visual1
+    (class object%
+        (super-new)
+        
+        (field (vertex0 0))
+        (field (vis_gain 1))
+        (field (vis_blur 0))
+        
+        (define/public (initialize)
+            
+            (gain vis_gain)    
+            (blur vis_blur)
+
+            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))  ; send a message to this destination
+            
+            (set! vertex0 (build-nurbs-sphere 10 20))
+            
+            (with-primitive vertex0
+                (scale (vector 2 2 2))
+                (pdata-add "ori" "v")
+                (pdata-copy "p" "ori")
+                ;(wire-line 1)
+                ;(line-opacity 0)
+                (hint-none)
+                (hint-wire)
+                (backfacecull 0)
+                (opacity 0.1)
+
+
+                )            
+            )
+        
+        (define/public (update)
+            (gain vis_grain)
+            (blur vis_blur)
+            )
+        
+        (define/public (setgain value)
+            (set! vis_gain value)
+            (gain vis_gain)            
+            )
+        
+        (define/public (setblur value)
+            (set! vis_blur value)            
+            )
+        
+        (define/public (draw)
+            
+            (cond ((eqv? vertex0 0)
+            (initialize))
+            )
+
+            (with-primitive vertex0
+                (line-width (* (gh 2) 1))                
+                ;(wire-colour (vector (gh 2) (gh 3) (gh 6)))
+                (wire-colour (vector 1 1 1))
+                (colour (vector (* (gh 1) 0.0001) (* (gh 5) 0.8) 0))
+                (rotate (vector (* (gh 2) 10) (* (gh 8) 10) (* (gh 16) 10)))
+                ;(scale (vector (gh 2) (gh 3) (gh 4)))
+                (pdata-index-map!
+                    (lambda (index val)
+                        
+                        (vadd (pdata-ref "ori" index) (vmul (pdata-ref "n" index) (* (gh index) 20)))
+                        )
+                    "p"
+                    )
+                
+                )
+            )
+        
+        (define/public (kill)
+            (destroy vertex0)
+            (set! vertex0 0)
+    
+            )
+        
+        (initialize)
+        )
+    )

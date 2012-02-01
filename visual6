@@ -1,0 +1,91 @@
+(define visual6
+    (class object%
+        (super-new)
+        
+        (field (vertex0 0))
+        (field (vis_gain 1))
+        (field (vis_blur 0))
+        
+        (define/public (initialize)
+            
+            (gain vis_gain)    
+            (blur vis_blur)
+            
+            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))  ; send a message to this destination
+
+            ;MAIN
+            ;(set! vertex0 (build-nurbs-sphere 30 10))
+
+            ;DEFORM
+            (set! vertex0 (build-nurbs-sphere 20 10))
+
+            ;DURIAN
+            ;(set! vertex0 (build-nurbs-sphere 30 90))
+
+            ;KEONG
+            ;(set! vertex0 (build-nurbs-sphere 30 8))
+
+
+(with-primitive vertex0
+    (scale (vector 1 1 1))
+    (pdata-add "ori" "v")
+    (pdata-copy "p" "ori")
+)
+    
+            )
+        
+        (define/public (update)
+            (gain vis_grain)
+            (blur vis_blur)
+            )    
+        
+        (define/public (setgain value)
+            (set! vis_gain value)
+            (gain vis_gain)           
+            )
+        
+        (define/public (setblur value)
+            (set! vis_blur value)  
+                      
+            )
+        
+        (define/public (draw)
+
+            (cond ((eqv? vertex0 0)
+            (initialize))
+            )
+
+    (with-primitive vertex0
+      (hint-none)
+          (hint-anti-alias)
+      ;(hint-anti-alias)
+      (hint-wire)
+      (line-width 2)
+      (backfacecull 1)
+      (opacity (* (gh 5) 1))
+      ;(wire-line 1)
+      (wire-opacity (* (gh 3) 0.2))
+      ;(wire-colour (vector 0 0.1 0.3))
+      (colour (vector (* (gh 4) 1) (* (gh 3) 1) 1))
+      (rotate (vector 0 (* (delta) 100) 0))
+      ;(scale (vector (gh 2) (gh 3) (gh 4)))
+      (pdata-index-map!
+           (lambda (index val)
+                (vadd (pdata-ref "ori" index) (vmul (pdata-ref "n" index) (gh index))))
+        "p"
+      )
+
+    )
+
+        )
+        
+        (define/public (kill)
+            
+            (destroy vertex0)
+            (set! vertex0 0)
+    
+            )
+        
+        (initialize)
+        )
+    )
