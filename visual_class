@@ -1,0 +1,77 @@
+(define visual_class%
+    (class object%
+        (super-new)
+        
+        (field (vertex 0))
+        (field (vertex_count 0))
+        (field (vertex_active 0))       
+        (field (vis_gain 1))
+        (field (vis_blur 0))
+        
+        (define/public (initialize)
+            
+            (cond ((eqv? debug 1)
+                (display ":: visual_class_init\n")
+            ))
+
+            (gain vis_gain)    
+            (blur vis_blur)
+            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))  ; send a message to this destination
+            (init_vertex)
+            (set! vertex_count (vector-length vertex))
+            (set! vertex_active 1)               
+            )
+        
+        (define/public (update)
+            (gain vis_grain)
+            (blur vis_blur)
+            
+            )
+        
+        (define/public (setgain value)
+            (set! vis_gain value)
+            (gain vis_gain)            
+            
+            )
+        
+        (define/public (setblur value)
+            (set! vis_blur value)            
+            
+            )
+        
+        (define/public (draw)
+            
+            (cond ((eqv? vertex_active 0)
+            (initialize))
+            )
+
+            (draw_vertex)
+            
+            )
+        
+        (define/public (kill)
+
+            (define i 0)                         
+            (do ()                               
+            [(= i vertex_count)]            
+            (destroy (vector-ref vertex i))
+            (set! vertex_active 0)
+            (set! i (+ i 1)))   
+
+    
+            )
+        
+        (define/public (init_vertex)
+            (display "initialize your vertex data here")
+            
+            )
+
+        (define/public (draw_vertex)
+            (display "initialize your draw runtime")
+            
+            )
+
+
+        (initialize)
+        )
+    )

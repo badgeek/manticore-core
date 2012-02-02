@@ -1,21 +1,17 @@
-(define visual1
-    (class object%
+(define visual1%
+    (class visual_class%
         (super-new)
-        
-        (field (vertex0 0))
-        (field (vis_gain 1))
-        (field (vis_blur 0))
-        
-        (define/public (initialize)
+        (inherit-field vertex)
+                
+        (define/override (init_vertex)
             
-            (gain vis_gain)    
-            (blur vis_blur)
+            (cond ((eqv? debug 1)
+                (display ":: visual_class_child_init\n")
+            ))
 
-            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))  ; send a message to this destination
+            (set! vertex (vector (build-nurbs-sphere 10 20)))
             
-            (set! vertex0 (build-nurbs-sphere 10 20))
-            
-            (with-primitive vertex0
+            (with-primitive (vector-ref vertex 0)
                 (scale (vector 2 2 2))
                 (pdata-add "ori" "v")
                 (pdata-copy "p" "ori")
@@ -25,32 +21,14 @@
                 (hint-wire)
                 (backfacecull 0)
                 (opacity 0.1)
+                
+                )    
 
-
-                )            
-            )
-        
-        (define/public (update)
-            (gain vis_grain)
-            (blur vis_blur)
-            )
-        
-        (define/public (setgain value)
-            (set! vis_gain value)
-            (gain vis_gain)            
-            )
-        
-        (define/public (setblur value)
-            (set! vis_blur value)            
-            )
-        
-        (define/public (draw)
-            
-            (cond ((eqv? vertex0 0)
-            (initialize))
             )
 
-            (with-primitive vertex0
+        (define/override (draw_vertex)
+
+            (with-primitive (vector-ref vertex 0)
                 (line-width (* (gh 2) 1))                
                 ;(wire-colour (vector (gh 2) (gh 3) (gh 6)))
                 (wire-colour (vector 1 1 1))
@@ -66,14 +44,7 @@
                     )
                 
                 )
+            
             )
-        
-        (define/public (kill)
-            (destroy vertex0)
-            (set! vertex0 0)
-    
-            )
-        
-        (initialize)
         )
     )
