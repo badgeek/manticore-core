@@ -48,6 +48,12 @@
             (draw_vertex)
             
             )
+
+        (define/public (vertex-ref i)
+            
+            (values (vector-ref vertex i))
+            
+            )    
         
         (define/public (kill)
 

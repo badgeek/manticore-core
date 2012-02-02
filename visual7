@@ -1,29 +1,19 @@
-(define visual7
-    (class object%
+(define visual7%
+    (class visual_class%
         (super-new)
-        
-        (field (vertex0 0))
-        (field (vertex1 0))
+        (inherit-field vertex)
+        (inherit vertex-ref)
         
         (field (tex_a (load-texture "lights.png")))
         (field (tex_b (load-texture "lights.png")))
         (field (tex_c (load-texture "invaders/invader10.png")))
         (field (tex_d (load-texture "plus.png")))
-        
-        (field (vis_gain 1))
-        (field (vis_blur 0))
-        
-        (define/public (initialize)
+                
+        (define/override (init_vertex)
             
-            (gain vis_gain)    
-            (blur vis_blur)
-            
-            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))  ; send a message to this destination
-            
-            (set! vertex0 (build-ribbon 100))
-            (set! vertex1 (build-particles 100))
-            
-            (with-primitive vertex0
+            (set! vertex (vector (build-ribbon 100) (build-particles 100)))
+
+            (with-primitive (vertex-ref 0)
                 (hint-unlit)
                 (wire-colour (vector 0.1 0 0))
                 
@@ -54,7 +44,7 @@
                 )
             
             
-            (with-primitive vertex1
+            (with-primitive (vertex-ref 1)
                 
                 
                 (blend-mode 'src-alpha 'dst-alpha)
@@ -84,40 +74,21 @@
                     )
                 
                 )
-            
-            
+ 
             )
-        
-        (define/public (update)
-            (gain vis_grain)
-            (blur vis_blur)
-            )    
-        
-        (define/public (setgain value)
-            (set! vis_gain value)
-            (gain vis_gain)           
-            )
-        
-        (define/public (setblur value)
-            (set! vis_blur value)  
+
+        (define/override (draw_vertex)
+
             
-            )
-        
-        (define/public (draw)
-            
-            (cond ((eqv? vertex0 0)
-                    (initialize))
-                )
-            
-            (with-state
+                (with-state
                 ;(rotate (vector (gh 2) 0 0))
-                (with-primitive vertex0
+                (with-primitive (vertex-ref 0)
                     (rotate (vector (* (delta) (gh 2)) 0 0))
                     (ortho)
                     
                     (pdata-index-map!
                         (lambda (idx x)
-                            (with-primitive vertex1
+                            (with-primitive (vertex-ref 1)
                                 ;(cond [(> (/ (gh 2) 1) 60) (texture tex_b)]
                                     ;      [else (texture tex_d)])
                                 (pdata-set! "s" idx (/ (gh idx) 6))
@@ -144,19 +115,8 @@
                     
                     )
                 )
-            
+
+
             )
-        
-        (define/public (kill)
-            
-            (destroy vertex0)
-            (destroy vertex1)
-            
-            (set! vertex0 0)
-            (set! vertex1 0)
-            
-            )
-        
-        (initialize)
         )
     )

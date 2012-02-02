@@ -9,8 +9,9 @@
 ;DEBUG MODE
 (define debug 0)
 
-; VISUAL CLASS OBJECT
-; HTTP://MANTICORE.DEADMEDIAFM.ORG 
+; + MANTICORE                         
+; + VISUAL CLASS OBJECT               
+; + HTTP://MANTICORE.DEADMEDIAFM.ORG  
 
 ; LOAD VISUAL CLASS
 (load "/fluxus/manticore-core/visual_class")
@@ -26,12 +27,12 @@
 
 (define visuals (list 
     (make-object visual1%)
-    (make-object visual2)
-    (make-object visual3)
-    (make-object visual4)
-    (make-object visual5)
-    (make-object visual6)
-    (make-object visual7)    
+    (make-object visual2%)
+    (make-object visual3%)
+    (make-object visual4%)
+    (make-object visual5%)
+    (make-object visual6%)
+    (make-object visual7%)    
 ))
 
 ; LOAD FUNCTIONS

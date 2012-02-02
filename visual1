@@ -2,16 +2,13 @@
     (class visual_class%
         (super-new)
         (inherit-field vertex)
-                
+        (inherit vertex-ref)
+        
         (define/override (init_vertex)
             
-            (cond ((eqv? debug 1)
-                (display ":: visual_class_child_init\n")
-            ))
-
             (set! vertex (vector (build-nurbs-sphere 10 20)))
             
-            (with-primitive (vector-ref vertex 0)
+            (with-primitive (vertex-ref 0)
                 (scale (vector 2 2 2))
                 (pdata-add "ori" "v")
                 (pdata-copy "p" "ori")
@@ -28,7 +25,7 @@
 
         (define/override (draw_vertex)
 
-            (with-primitive (vector-ref vertex 0)
+            (with-primitive (vertex-ref 0)
                 (line-width (* (gh 2) 1))                
                 ;(wire-colour (vector (gh 2) (gh 3) (gh 6)))
                 (wire-colour (vector 1 1 1))
