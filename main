@@ -2,9 +2,9 @@
 (require scheme/class)
 (start-audio "system:capture_1" 512 44100)
 (osc-source "8000")
-(osc-destination "osc.udp:192.168.1.102:8000")
+(osc-destination "osc.udp://192.168.1.102:8000")
 
-; VISUAL CLASS OBJECT: VISUAL 1
+; VISUAL CLASS OBJECT
 ; HTTP://MANTICORE.DEADMEDIAFM.ORG 
 
 ; LOAD VISUALS
@@ -17,7 +17,6 @@
 (load "/fluxus/manticore-core/visual6")
 (load "/fluxus/manticore-core/visual7")
 
-
 (define visuals (list 
     (make-object visual1)
     (make-object visual2)
@@ -28,18 +27,18 @@
     (make-object visual7)    
 ))
 
+; LOAD FUNCTIONS
+
+(load "/fluxus/manticore-core/function")
+
 ; VARIABLES
 
 (define visual_bank 0)
 (define visual_off 0)
-(define fader0 0)
-(define fader1 0)
-(define fader2 0)
-(define fader3 0)
+(define visuals_count (try visuals))
 
-; LOAD FUNCTIONS
-
-(load "/fluxus/manticore-core/function")
+(define fader_control (vector 0 0 0))
+(define fader_count (vector-length fader_control))
 
 ; INIT FUNCTION
 
@@ -49,9 +48,7 @@
 
 (define (renderchain)
     (receive_osc)
-    ;(cond ((eqv? visual_off 0)
     (select_visual)
-    ;))
 )
 
 (every-frame (renderchain))

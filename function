@@ -5,22 +5,13 @@
         (else (+ '1 (try(cdr theList))))
 ))
 
-
 (define (kill_visuals)
-    (define i 0)                      ; i := 0
-    (do ()                            ; do 
-        [(= i (try visuals))]                       ;   until i=5
-        (send (list-ref visuals i) kill);       display i
-        (set! i (+ i 1)))               ;       i := i +1
+    (define i 0)                         
+    (do ()                               
+        [(= i visuals_count)]            
+        (send (list-ref visuals i) kill) 
+        (set! i (+ i 1)))                
     )
-
-
-;(send visual1 initialize)
-;(send visual1 update)
-;(send visual1 draw)
-;(send visual1 setgain 1)
-;(send visual1 setblur 0)
-
 
 (define (render_draw x)
     (send (list-ref visuals x) draw)
@@ -42,73 +33,34 @@
     (send (list-ref visuals x) setblur y)
 )
 
-(define (receive_osc)
+(define (osc_bank_set)
+    (define i 0)                     
     (when (osc-msg "/visual_bank")
-    	(kill_visuals)
-        (cond ((not (zero? (osc 0)))
-                (display "btn 0 pressed")
-                (set! visual_bank 0)
-                )
-            ((not (zero? (osc 1)))
-                (display "btn 1 pressed")
-                (set! visual_bank 1)
-                )
-                ;(display visual_bank))
-            ((not (zero? (osc 2)))
-                ;(display "btn 2 pressed")
-                (set! visual_bank 2)
-                )
-            ((not (zero? (osc 3)))
-                ;(display "btn 3 pressed")
-                (set! visual_bank 3)
-                )
-            ((not (zero? (osc 4)))
-                ;(display "btn 4 pressed")
-                (set! visual_bank 4)
-                )
-            ((not (zero? (osc 5)))
-                ;(display "btn 5 pressed")
-                (set! visual_bank 5)
-                )
-            ((not (zero? (osc 6)))
-                ;(display "btn 6 pressed")
-                (set! visual_bank 6)
-                )
-            ((not (zero? (osc 7)))
-                ;(display "btn 7 pressed")
-                (set! visual_bank 7)
-                )
-            )
+           (kill_visuals)
+           (do ()                           
+           [(= i visuals_count)]                    
+           (cond ((not (zero? (osc i)))
+           (set! visual_bank i)))
+           (set! i (+ i 1)))              
         )
-        (when (osc-msg "/Fader/x")
-        	(display "fader")
-            (set! fader0 (osc 0))
-        )
+)
 
-        (when (osc-msg "/Fader2/x")
-            (set! fader1 (osc 0))
-        )
+(define (osc_fader_set)
+       (define x 0)
+       (do ()
+       [(= x fader_count)]        
+       (when (osc-msg (string-append "/Fader/" (number->string x)))
+       ;(display (string-append "fader set: " (number->string (osc 0)) "id:" (number->string x)))
+       (vector-set! fader_control x (osc 0))
+       )
+       (set! x (+ x 1))))
 
-        (when (osc-msg "/Fader3/x")
-            (set! fader2 (osc 0))
-        )
-
-        (when (osc-msg "/Fader4/x")
-            (set! fader3 (osc 0))
-        )
-
-        (when (osc-msg "/off")
-        	(display (osc 0))
-            (set! visual_off (osc 0))
-        )
-
+(define (receive_osc)
+        (osc_bank_set)
+        (osc_fader_set) 
         (when (osc-msg "/gaincontrol/x")
-        	;(display (osc 0))
-
-            (render_setgain visual_bank (* 10 (osc 0)))
-            
+        (render_setgain visual_bank (* 10 (osc 0)))
         )
-
     )
 
 (define (select_visual)
