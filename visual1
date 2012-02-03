@@ -1,9 +1,10 @@
 (define visual1%
     (class visual_class%
         (super-new)
-        (inherit-field vertex)
-        (inherit-field vis_fader)
-        (inherit vertex-ref)
+        (inherit-field vertex) ;inherit vertex container
+        (inherit-field vis_fader) ;inherit fader vector variable
+        (inherit vertex-ref) ; fader ref function
+        (inherit fader-ref) ; vertex ref function
 
         (define/override (init_vertex)
             

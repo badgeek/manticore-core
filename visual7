@@ -1,8 +1,10 @@
 (define visual7%
     (class visual_class%
         (super-new)
-        (inherit-field vertex)
-        (inherit vertex-ref)
+        (inherit-field vertex) ;inherit vertex container
+        (inherit-field vis_fader) ;inherit fader vector variable
+        (inherit vertex-ref) ; fader ref function
+        (inherit fader-ref) ; vertex ref function
         
         (field (tex_a (load-texture "lights.png")))
         (field (tex_b (load-texture "lights.png")))
