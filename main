@@ -1,3 +1,7 @@
+; + MANTICORE                         
+; + GENERATIVE-VJ-FRAMEWORK               
+; + HTTP://MANTICORE.DEADMEDIAFM.ORG  
+
 (clear)
 (require scheme/class)
 (start-audio "system:capture_1" 512 44100)
@@ -8,10 +12,6 @@
 
 ;DEBUG MODE
 (define debug 0)
-
-; + MANTICORE                         
-; + GENERATIVE-VJ-FRAMEWORK               
-; + HTTP://MANTICORE.DEADMEDIAFM.ORG  
 
 ; LOAD VISUAL CLASS
 (load "/fluxus/manticore-core/visual_class")

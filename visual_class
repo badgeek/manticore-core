@@ -1,5 +1,6 @@
 ;BASE CLASS FOR VISUAL SAMPLER
 ;HTTP://MANTICORE.DEADMEDIAFM.ORG
+
 (define visual_class%
     (class object%
         (super-new)
@@ -13,26 +14,34 @@
         (field (vis_fader_count 0))
 
         (define/public (constructor)
-        (set! vis_fader_count (vector-length vis_fader))
-        (initialize)
+            (setup)
+            (initialize)            
         )
         
+        (define/public (setup)
+            (cond ((eqv? debug 1)
+            (display ":: visual loaded \n")))
+        )        
+
         (define/public (initialize)
             
             (cond ((eqv? debug 1)
                 (display ":: visual_class_init\n")
             ))
 
+            (init_vertex)
+
+            ;count
+            (set! vertex_count (vector-length vertex))
+            (set! vis_fader_count (vector-length vis_fader))
+            
+            (display vis_fader_count)
+
+            ;fader osc
+            (setosc)
             (gain vis_gain)    
             (blur vis_blur)
 
-            (setosc)
-            (display (newline))
-            (display vis_fader)
-
-            (init_vertex)
-
-            (set! vertex_count (vector-length vertex))
             (set! vertex_active 1)               
             
             )
@@ -46,7 +55,9 @@
                                      
             (do ()                               
             [(= i vis_fader_count)]            
-            (osc-send (string-append "/Fader/" (number->string i)) "f" (list (vector-ref vis_fader i)))
+            (osc-send (string-append "/Fader/" (number->string i)) "f" (list (fader-ref i)))
+            ;(display (string-append "/Fader/" (number->string i)))
+            ;(display (newline))
             (set! i (+ i 1)))
             
             )
@@ -60,7 +71,7 @@
         (define/public (setblur value)
             (set! vis_blur value)            
             (blur value)            
-            ;(display "set blur")
+
             )
 
         (define/public (setfader x value)
@@ -88,18 +99,12 @@
         (define/public (draw)
             
             (cond ((eqv? vertex_active 0)
-            (initialize))
-            )
+            (initialize)
+            ))
 
             (draw_vertex)
             
             )                
-
-        (define/public (update)
-            (gain vis_grain)
-            (blur vis_blur)
-            
-            )
         
         (define/public (kill)
 

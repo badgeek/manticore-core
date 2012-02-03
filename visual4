@@ -3,8 +3,14 @@
         (super-new)
         (inherit-field vertex) ;inherit vertex container
         (inherit-field vis_fader) ;inherit fader vector variable
+        
         (inherit vertex-ref) ; fader ref function
         (inherit fader-ref) ; vertex ref function
+        
+        (define/override (setup)
+            (set! vis_fader (vector 0 0 0 0 0 0 0 0))            
+            
+            )
                 
         (define/override (init_vertex)
             

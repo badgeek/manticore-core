@@ -1,10 +1,17 @@
 (define visual1%
     (class visual_class%
         (super-new)
+        
         (inherit-field vertex) ;inherit vertex container
         (inherit-field vis_fader) ;inherit fader vector variable
+
         (inherit vertex-ref) ; fader ref function
         (inherit fader-ref) ; vertex ref function
+
+        (define/override (setup)
+            (set! vis_fader (vector 0 0 0 0 0 0 0 0)) ; fader default value           
+            
+            )
 
         (define/override (init_vertex)
             
@@ -30,7 +37,7 @@
             (with-primitive (vertex-ref 0)
                 (line-width (* (gh 2) 1))                
                 ;(wire-colour (vector (gh 2) (gh 3) (gh 6)))
-                (wire-colour (vector 1 1 1))
+                (wire-colour (vector (fader-ref 0) (fader-ref 1) (fader-ref 2)))
                 (colour (vector (* (gh 1) 0.0001) (* (gh 5) 0.8) 0))
                 (rotate (vector (* (gh 2) 10) (* (gh 8) 10) (* (gh 16) 10)))
                 ;(scale (vector (gh 2) (gh 3) (gh 4)))
