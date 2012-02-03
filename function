@@ -6,24 +6,32 @@
         (set! i (+ i 1)))                
     )
 
-(define (render_draw x)
-    (send (list-ref visuals x) draw)
+(define (render_draw idx)
+    (send (list-ref visuals idx) draw)
 )
 
-(define (render_init x)
-    (send (list-ref visuals x) initialize)
+(define (render_init idx)
+    (send (list-ref visuals idx) initialize)
 )
 
-(define (render_update x)
-    (send (list-ref visuals x) update)
+(define (render_update idx)
+    (send (list-ref visuals idx) update)
 )
 
-(define (render_setgain x y)
-    (send (list-ref visuals x) setgain y)
+(define (render_setgain idx x)
+    (send (list-ref visuals idx) setgain x)
 )
 
-(define (render_setblur x y)
-    (send (list-ref visuals x) setblur y)
+(define (render_setblur idx x)
+    (send (list-ref visuals idx) setblur x)
+)
+
+(define (render_setfader idx x y)
+    (send (list-ref visuals idx) setfader x y)
+)
+
+(define (render_getfader idx)
+    (values (send (list-ref visuals idx) getfader))
 )
 
 (define (osc_bank_set)
@@ -41,12 +49,13 @@
 (define (osc_fader_set)
        (define x 0)
        (do ()
-       [(= x fader_count)]        
-       (when (osc-msg (string-append "/Fader/" (number->string x)))
-       ;(display (string-append "fader set: " (number->string (osc 0)) "id:" (number->string x)))
-       (vector-set! fader_control x (osc 0))
+        [(= x fader_count)]        
+          (when (osc-msg (string-append "/Fader/" (number->string x)))
+          (render_setfader visual_bank x (osc 0))
+          )
+          (set! x (+ x 1))
+        )
        )
-       (set! x (+ x 1))))
 
 (define (receive_osc)
 
@@ -58,6 +67,9 @@
         (osc_fader_set) 
         (when (osc-msg "/gaincontrol/x")
         (render_setgain visual_bank (* 10 (osc 0)))
+        )
+        (when (osc-msg "/blurcontrol/x")
+        (render_setblur visual_bank (osc 0))
         )
     )
 

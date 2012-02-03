@@ -7,6 +7,8 @@
         (field (vertex_active 0))       
         (field (vis_gain 1))
         (field (vis_blur 0))
+        (field (vis_fader (vector 0 0 0 0)))
+        (field (vis_fader_count 0))
         
         (define/public (initialize)
             
@@ -16,10 +18,16 @@
 
             (gain vis_gain)    
             (blur vis_blur)
-            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))  ; send a message to this destination
+
+            (setosc)
+            (display (newline))
+            (display vis_fader)
+
             (init_vertex)
+
             (set! vertex_count (vector-length vertex))
             (set! vertex_active 1)               
+            
             )
         
         (define/public (update)
@@ -28,6 +36,30 @@
             
             )
         
+        (define/public (setosc)
+            ;send osc fader, gain back to lemur
+            ;todo: make it flexible
+            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))
+            (osc-send "/Fader/0" "f" (list (vector-ref vis_fader 0)))
+            (osc-send "/Fader/1" "f" (list (vector-ref vis_fader 1)))
+            (osc-send "/Fader/2" "f" (list (vector-ref vis_fader 2)))
+            (osc-send "/Fader/3" "f" (list (vector-ref vis_fader 3)))
+        )
+
+        (define/public (setfader x value)
+            (vector-set! vis_fader x value)
+            ;(display visual_bank)
+            ;(display " : ")
+            ;(display x)
+            ;(display "-> ")
+            ;(display value)
+            ;(display (newline))
+        )
+
+        (define/public (getfader)
+            (values vis_fader)
+        )
+
         (define/public (setgain value)
             (set! vis_gain value)
             (gain vis_gain)            
@@ -36,7 +68,8 @@
         
         (define/public (setblur value)
             (set! vis_blur value)            
-            
+            (blur value)            
+            ;(display "set blur")
             )
         
         (define/public (draw)

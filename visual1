@@ -2,8 +2,9 @@
     (class visual_class%
         (super-new)
         (inherit-field vertex)
+        (inherit-field vis_fader)
         (inherit vertex-ref)
-        
+
         (define/override (init_vertex)
             
             (set! vertex (vector (build-nurbs-sphere 10 20)))

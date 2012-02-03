@@ -4,7 +4,7 @@
 
 ;OSC CLIENT/SERVER INIT
 (osc-source "8000")
-(osc-destination "osc.udp://192.168.1.101:8000")
+(osc-destination "osc.udp://192.168.1.102:8000")
 
 ;DEBUG MODE
 (define debug 0)
@@ -45,7 +45,7 @@
 (define visual_off 0)
 (define visuals_count (length visuals))
 
-(define fader_control (vector 0 0 0))
+(define fader_control (vector 0 0 0 0))
 (define fader_count (vector-length fader_control))
 
 ; INIT FUNCTION
