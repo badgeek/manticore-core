@@ -8,13 +8,11 @@
         (field (vis_gain 1))
         (field (vis_blur 0))
         (field (vis_fader (vector 0 0 0 0)))
-        (field (vis_fader_count (vector-length vis_fader)))
-
+        (field (vis_fader_count 0))
 
         (define/public (constructor)
-        
+        (set! vis_fader_count (vector-length vis_fader))
         (initialize)
-
         )
         
         (define/public (initialize)
@@ -40,14 +38,14 @@
         (define/public (setosc)
             ;send osc fader, gain back to lemur
             ;todo: make it flexible
-            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))
-
             (define i 0)
+
+            (osc-send "/gaincontrol/x" "f" (list (/ vis_gain 10)))
                                      
             (do ()                               
             [(= i vis_fader_count)]            
-            (osc-send (string-append "/Fader/" (number->string i)) "f" (list (vector-ref vis_fader i)))             
-            (set! i (+ i 1)))                
+            (osc-send (string-append "/Fader/" (number->string i)) "f" (list (vector-ref vis_fader i)))
+            (set! i (+ i 1)))
             
             )
 
@@ -73,7 +71,6 @@
             
             )
         
-
         (define/public (vertex-ref i)
             
             (values (vector-ref vertex i))
@@ -85,7 +82,6 @@
             (values vis_fader_count)
             
             )
-
 
         (define/public (draw)
             
@@ -111,7 +107,6 @@
             (destroy (vector-ref vertex i))
             (set! vertex_active 0)
             (set! i (+ i 1)))   
-
     
             )
         
@@ -124,7 +119,6 @@
             (display "initialize your draw runtime")
             
             )
-
 
         (constructor)
         )

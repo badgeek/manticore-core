@@ -61,7 +61,8 @@
 (define (receive_osc)
 
         (cond ((eqv? debug 1)
-           (display (osc-peek))(newline) 
+           (display (osc-peek))
+           (newline) 
         ))
         
         (osc_bank_set)
