@@ -10,7 +10,7 @@
 (define debug 0)
 
 ; + MANTICORE                         
-; + VISUAL CLASS OBJECT               
+; + GENERATIVE-VJ-FRAMEWORK               
 ; + HTTP://MANTICORE.DEADMEDIAFM.ORG  
 
 ; LOAD VISUAL CLASS
@@ -55,8 +55,8 @@
 ; MAIN LOOP
 
 (define (renderchain)
-    (receive_osc)
-    (select_visual)
+    (receive_osc) ; process osc message
+    (select_visual) ;select visual
 )
 
 (every-frame (renderchain))

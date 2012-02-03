@@ -1,3 +1,6 @@
+;GLOBAL FUNCTION
+;HTTP://MANTICORE.DEADMEDIAFM.ORG
+
 (define (kill_visuals)
     (define i 0)                         
     (do ()                               
@@ -5,6 +8,8 @@
         (send (list-ref visuals i) kill) 
         (set! i (+ i 1)))                
     )
+
+;VISUAL SAMPLER FUNCTION
 
 (define (visual_draw idx)
     (send (list-ref visuals idx) draw)
@@ -34,6 +39,7 @@
     (values (send (list-ref visuals idx) getfadercount))
 )
 
+;OSC RECEIVER
 
 (define (osc_bank_set)
     (define i 0)                     
@@ -65,15 +71,22 @@
            (newline) 
         ))
         
+        ;fader and visual sampler osc
         (osc_bank_set)
-        (osc_fader_set) 
+        (osc_fader_set)
+        
+        ;gain osc 
         (when (osc-msg "/gaincontrol/x")
         (visual_setgain visual_bank (* 10 (osc 0)))
         )
+
+        ;blur osc
         (when (osc-msg "/blurcontrol/x")
         (visual_setblur visual_bank (osc 0))
         )
     )
+
+;VISUAL SELECTOR    
 
 (define (select_visual)
 	(visual_draw visual_bank)
