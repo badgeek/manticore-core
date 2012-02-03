@@ -30,9 +30,10 @@
     (send (list-ref visuals idx) setfader x y)
 )
 
-(define (visual_getfader idx)
-    (values (send (list-ref visuals idx) getfader))
+(define (visual_getfadercount idx)
+    (values (send (list-ref visuals idx) getfadercount))
 )
+
 
 (define (osc_bank_set)
     (define i 0)                     
@@ -49,7 +50,7 @@
 (define (osc_fader_set)
        (define x 0)
        (do ()
-        [(= x fader_count)]        
+        [(= x (visual_getfadercount visual_bank) )]        
           (when (osc-msg (string-append "/Fader/" (number->string x)))
           (visual_setfader visual_bank x (osc 0))
           )
