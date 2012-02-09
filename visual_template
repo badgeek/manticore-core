@@ -1,0 +1,31 @@
+(define visual_template%
+    (class visual_class%
+        (super-new)
+        
+        (inherit-field vertex) ;inherit vertex container
+        (inherit-field vis_fader) ;inherit fader vector variable
+        
+        (inherit vertex-ref) ; fader ref function
+        (inherit fader-ref) ; vertex ref function
+        
+        ; initial variable set, this will be run once
+        ; declare your build-(primitive)
+        ; and with-state here
+        
+        (define/override (setup)
+            
+            )
+        
+        ; vertex initialize
+        
+        (define/override (init_vertex)
+ 
+            )
+        
+        ; render function called every frame
+
+        (define/override (draw_vertex)
+
+            )
+    )
+)
