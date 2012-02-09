@@ -1,6 +1,25 @@
-; + MANTICORE                         
-; + GENERATIVE-VJ-FRAMEWORK               
-; + HTTP://MANTICORE.DEADMEDIAFM.ORG  
+;
+;
+;		
+;		 .S_SsS_S. .S_SSSs  .S_sSSssdSS_SSSSSSbs.S sSSssSSs_sSSs  .S_sSSs   sSSs
+;		.SS~S*S~SS.SS~SSSSS.SS~YS%%YSSS~S%SSSSS.SSd%%Sd%%SP~YS%%b.SS~YS%%b d%%SP
+;		S%S `Y' S%S%S   SSSS%S   `S%b   S%S    S%d%S'd%S'     `S%S%S   `S%d%S'  
+;		S%S     S%S%S    S%S%S    S%S   S%S    S%S%S S%S       S%S%S    S%S%S   
+;		S%S     S%S%S SSSS%S%S    S&S   S&S    S&S&S S&S       S&S%S    d*S&S   
+;		S&S     S&S&S  SSS%S&S    S&S   S&S    S&S&S S&S       S&S&S   .S*S&S_Ss
+;		S&S     S&S&S    S&S&S    S&S   S&S    S&S&S S&S       S&S&S_sdSSSS&S~SP
+;		S&S     S&S&S    S&S&S    S&S   S&S    S&S&S S&S       S&S&S~YSY%bS&S   
+;		S*S     S*S*S    S&S*S    S*S   S*S    S*S*b S*b       d*S*S   `S%S*b   
+;		S*S     S*S*S    S*S*S    S*S   S*S    S*S*S.S*S.     .S*S*S    S%S*S.  
+;		S*S     S*S*S    S*S*S    S*S   S*S    S*SSSSbSSSbs_sdSSSS*S    S&SSSSbs
+;		SSS     S*SSS    S*S*S    SSS   S*S    S*S YSSPYSSP~YSSY S*S    SSS YSSP
+;		        SP       SPSP           SP     SP                SP             
+;		        Y        Y Y            Y      Y                 Y              
+;		                                                                        
+;		//MANTICORE
+; 		//GENERATIVE-VJ-FRAMEWORK               
+; 		//HTTP://MANTICORE.DEADMEDIAFM.ORG
+;
 
 (clear)
 (require scheme/class)

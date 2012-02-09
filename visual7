@@ -7,15 +7,19 @@
         (inherit vertex-ref) ; fader ref function
         (inherit fader-ref) ; vertex ref function
         
+        
+
+        (field (tex_a (load-texture "lights.png")))
+        (field (tex_b (load-texture "lights.png")))
+        (field (tex_c (load-texture "invaders/invader10.png")))
+        (field (tex_d (load-texture "plus.png")))
+        
+
         (define/override (setup)
             (set! vis_fader (vector 0 0 0 0 0 0 0 0))            
             
             )
         
-        (field (tex_a (load-texture "lights.png")))
-        (field (tex_b (load-texture "lights.png")))
-        (field (tex_c (load-texture "invaders/invader10.png")))
-        (field (tex_d (load-texture "plus.png")))
                 
         (define/override (init_vertex)
             
